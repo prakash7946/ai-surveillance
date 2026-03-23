@@ -45,13 +45,15 @@ def alert_callback(data):
     # data: {'weapon': bool, 'behavior': str, 'threat_level': str, 'timestamp': float}
     socketio.emit('new_alert', data)
     
-    # Check if we should send an email for HIGH threat
-    if data['threat_level'] == 'HIGH':
+    # Send an email for ANY threat message or weapon detection as requested
+    is_any_threat = data['weapon'] or data['threat_level'] in ['HIGH', 'MEDIUM']
+    
+    if is_any_threat:
         global last_email_time
         current_time = time.time()
         if current_time - last_email_time > EMAIL_COOLDOWN:
             last_email_time = current_time
-            alert_type = "Weapon + Aggression" if data['weapon'] else "Aggressive Behavior"
+            alert_type = "Weapon + Aggression" if data['weapon'] and data['threat_level'] == 'HIGH' else "Weapon Detected" if data['weapon'] else "Suspicious Behavior"
             
             # Send email in a separate thread so it doesn't block the video stream
             email_thread = threading.Thread(target=send_email_alert, args=(alert_type, data['behavior'], data['timestamp']))
