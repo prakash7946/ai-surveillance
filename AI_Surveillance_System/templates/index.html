@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Surveillance System Dashboard</title>
+    <!-- Modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="top-nav">
+            <div class="logo">
+                <span class="pulse-dot"></span>
+                <h1>AI Surveillance & Threat Detection</h1>
+            </div>
+            <div class="system-status">
+                <span class="status-indicator active">System Online</span>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="dashboard-grid">
+            
+            <!-- Video Feed Section -->
+            <section class="video-section card">
+                <div class="card-header">
+                    <h2>Live Camera Feed</h2>
+                    <div class="camera-controls">
+                        <span class="camera-info">CAM 01 - Main Entrance</span>
+                        <label class="switch">
+                            <input type="checkbox" id="camera-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span id="camera-status-text" class="status-on">ON</span>
+                    </div>
+                </div>
+                <div class="video-container" id="video-container">
+                    <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Live Surveillance Feed">
+                    <!-- Overlay for major alerts -->
+                    <div id="big-alert-overlay" class="overlay hidden">
+                        <span class="alert-text">THREAT DETECTED</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logs & Alerts Panel -->
+            <section class="logs-section card">
+                <div class="card-header">
+                    <h2>Event Logs</h2>
+                    <span id="threat-counter" class="badge">0 Threats</span>
+                </div>
+                
+                <div class="log-container" id="log-container">
+                    <div class="log-entry system-msg">
+                        <span class="time">${new Date().toLocaleTimeString()}</span>
+                        <span class="msg">System initialized. Awaiting feeds...</span>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

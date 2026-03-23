@@ -1,0 +1,13 @@
+ultralytics
+opencv-python-headless
+opencv-python
+tensorflow
+flask
+matplotlib
+seaborn
+scikit-learn
+numpy
+pandas
+Flask-SocketIO
+Waitress
+python-dotenv
